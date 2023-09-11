@@ -4,7 +4,9 @@ This is a repository for working on the problems and exercises found here https:
 
 # Dependencies
 
-The Tests use utest.h (https://github.com/sheredom/utest.h) Commit 97236c14007916ebb4522d7e7290c242cc372d41
+The Tests use utest.h (https://github.com/sheredom/utest.h) Commit 97236c14007916ebb4522d7e7290c242cc372d41  
+utest.h has been slightly patched, so it will build even if custom types are used with it  
+(The Patch is a Hack that just ifdefs out the failing parts)
 
 
 # Licensing

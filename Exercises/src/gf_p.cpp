@@ -1,4 +1,5 @@
 #include "gf_p.hpp"
+#include <stdexcept>
 
 //NOTE: This is for Exercise 03
 
@@ -40,7 +41,7 @@ CGF_P::CGF_P(uint8_t value)
     {
         //Even if I really dislike exceptions, this is the easiest way to get what I want
         //And since only the constructor throws, I can use this in my tests and to see if a part of my calculations is wrong
-        throw;
+        throw std::overflow_error("too big");
     }
 }
 

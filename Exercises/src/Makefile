@@ -1,10 +1,12 @@
 CXX = g++
 CXXFLAGS = -ggdb
 
-all: buildElf
+all: build test03
 
 
-buildElf: main.cpp gf_p.cpp
+build: main.cpp gf_p.cpp
 	$(CXX) $(CXXFLAGS) main.cpp gf_p.cpp -o GFTool
 
+test03: testmain03.cpp gf_p.cpp
+	$(CXX) $(CXXFLAGS) testmain03.cpp gf_p.cpp -o Test03
 

@@ -433,7 +433,7 @@ UTEST_EXTERN struct utest_state_s utest_state;
 #define UTEST_OVERLOADABLE UTEST_ATTRIBUTE(overloadable)
 #endif
 
-#if defined(__cplusplus) && (__cplusplus >= 201103L)
+#if defined(__cplusplus) && (__cplusplus >= 201103L) && 0
 
 #ifdef __clang__
 #pragma clang diagnostic push
@@ -537,7 +537,7 @@ UTEST_WEAK UTEST_OVERLOADABLE void utest_type_printer(const T t) {
 #pragma clang diagnostic pop
 #endif
 
-#elif defined(UTEST_OVERLOADABLE)
+#elif defined(UTEST_OVERLOADABLE) && 0
 
 UTEST_WEAK UTEST_OVERLOADABLE void utest_type_printer(signed char c);
 UTEST_WEAK UTEST_OVERLOADABLE void utest_type_printer(signed char c) {
