@@ -2,6 +2,8 @@
 
 ## Clock Arithmetic Exercise
 
+- Work through some examples and convince yourself of these facts. Internalizing these ideas is critical to keeping your sanity as things get more abstract.
+
 | a | b | -b | a+b | a-b | a+(-b) |
 |---|---|----|-----|-----|--------|
 | 5 | 7 | 5  | 0   | 10  | 10     |
@@ -12,12 +14,14 @@ Note: Column (a-b) and (a+(-b)) will always be the same
 
 ## Group Definition Exercise
 
+- Convince yourself that our clock is a group according to these definitions.
 0. These aren't gonna be proofs, just some examples
 1. Associativity
     - (7+8)+9 = 0
     - 7+(8+9) = 0
 2. Identity
     - 0 is the additive Identity
+    - 1+0=0
 3. Inverse
     - 5+7=0
     - 1+11=0
@@ -25,6 +29,7 @@ Note: Column (a-b) and (a+(-b)) will always be the same
 
 ## Modular Arithmetic Exercise
 
+- Play around with the modular arithmetic where n=5 (a) what are the numbers? (b) which number acts as an identity? (c) what is the "additive inverse" of 3? (d) which integers are "equivalent" to 1?
 - a) 0; 1; 2; 3; 4
 - b) 5 (should be the modulo identity, unsure about this one)
 - c) 2
@@ -32,6 +37,7 @@ Note: Column (a-b) and (a+(-b)) will always be the same
 
 ## Modular Arithmetic: Multiplication Exercise
 
+- Does this form a Group? Justify each required property or give a counter-example.
 1. Associativity
     - Skipped for now, as assumed to work
 2. Identity
@@ -46,7 +52,9 @@ Note: Column (a-b) and (a+(-b)) will always be the same
     - AND: An even number modulo an even number will also always result in an even number
     - So it is not possible to get an odd number such as our Multiplication identity
 
-## Proof Exercise
+## Proof Exercises
+
+- Explore n=5 modular-arithmetic over multiplication using the set {1, 2, 3, 4}: (a) draw the multiplication table (it should have 16 squares), (b) draw the inverse table (it should have 4 squares)
 
 Multiplication Table:
 
@@ -62,6 +70,8 @@ Inverse Table:
 | b | 1 | 2 | 3 | 4 |
 |---|---|---|---|---|
 |-b | 1 | 3 | 2 | 4 |
+
+- Explore n=4 modular-arithmetic over multiplication using the set {1, 2, 3}: (a) give a counter-example for why this is not a Group
 
 n=4:
 
