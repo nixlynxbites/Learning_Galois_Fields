@@ -5,13 +5,13 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "SimpleDebug",
+            "name": "Debug_03",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/Exercises/src/GFTool",
+            "program": "${workspaceFolder}/Exercises/03_Implementing_GF_p/GFTool",
             "args": [],
             "stopAtEntry": false,
-            "cwd": "${workspaceFolder}/Exercises/src",
+            "cwd": "${workspaceFolder}/Exercises/03_Implementing_GF_p",
             "environment": [],
             "externalConsole": false,
             "MIMode": "gdb",

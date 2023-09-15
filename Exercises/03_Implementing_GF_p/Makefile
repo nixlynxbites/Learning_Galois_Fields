@@ -1,12 +1,12 @@
 CXX = g++
 CXXFLAGS = -ggdb
 
-all: build test03
+all: build test
 
 
 build: main.cpp gf_p.cpp
 	$(CXX) $(CXXFLAGS) main.cpp gf_p.cpp -o GFTool
 
-test03: testmain03.cpp gf_p.cpp
-	$(CXX) $(CXXFLAGS) testmain03.cpp gf_p.cpp -o Test03
+test: testmain.cpp gf_p.cpp
+	$(CXX) $(CXXFLAGS) testmain.cpp gf_p.cpp -o GFTest
 
