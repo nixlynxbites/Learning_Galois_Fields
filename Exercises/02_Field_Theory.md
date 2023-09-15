@@ -2,8 +2,13 @@
 
 ## Exploring GF(5) Exercises
 
-- The Multiplication Table isn't correct 3*3 should result in 4
-- An easy method to check is to take the column of the inverse and flip it
+- Convince yourself these tables are correct. Hint: they might not be ;-)
+    - The Multiplication Table isn't correct 3*3 should result in 4
+- What's an easy method to sanity-check a multiplication table? Hint: think about what multiplicative inverses imply about uniqueness.
+    - An easy method to check is to take the column of the inverse and flip it
+
+
+- Explore GF(2). Does it still work? What common computer operation is addition? What common computer operation is multiplication?
 
 GF(2) Tables:
 
