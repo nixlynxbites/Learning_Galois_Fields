@@ -28,5 +28,53 @@
                 }
             ]
         },
+        {
+            "name": "Debug_06",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/Exercises/06_Implementing_GF_p_k/GFTool",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/Exercises/06_Implementing_GF_p_k",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                },
+                {
+                    "description":  "Set Disassembly Flavor to Intel",
+                    "text": "-gdb-set disassembly-flavor intel",
+                    "ignoreFailures": true
+                }
+            ]
+        },
+        {
+            "name": "Debug_06_Tests",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/Exercises/06_Implementing_GF_p_k/GFTest",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/Exercises/06_Implementing_GF_p_k",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                },
+                {
+                    "description":  "Set Disassembly Flavor to Intel",
+                    "text": "-gdb-set disassembly-flavor intel",
+                    "ignoreFailures": true
+                }
+            ]
+        },
     ]
 }
