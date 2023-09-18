@@ -22,6 +22,11 @@ For building and running the tests
 make test
 ./GFTest
 ```
+In 06_Implementing_GF_p_k you can also build a small utility (it has the functionality of poly_repr.rs)
+```
+make util
+./GFUtil -h
+```
 
 
 # Licensing
@@ -31,4 +36,6 @@ Everything else in this repository is licensed under EUPL V1.2
 
 # Disclaimer
 
-This code isn't written to be good code, but to test and understand the concepts. Therefore, shortcuts have been taken, to easily/quickly test/do things. (This includes the Makefiles)
+This code isn't written to be good code, but to test and understand the concepts. Therefore, shortcuts have been taken, to easily/quickly test/do things. (This includes the Makefiles)  
+No attempt at sanitising inputs has been made. If problematic input is passed to the tools, they'll behave in an undefined way.
+

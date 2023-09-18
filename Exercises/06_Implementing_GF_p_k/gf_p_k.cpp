@@ -232,3 +232,21 @@ fieldsize_t CGF_P_K::size() const
     //TODO: ensure there's no overflows
     return std::pow(mP, mK);
 }
+
+
+vectorNotation_t CGF_P_K::getVectorRepresentationStatic(const fieldsize_t P, const fieldsize_t dec)
+{
+    fieldsize_t decBuf = dec;
+    fieldsize_t bufferP = mP;
+    CGF_P_K::setP(P);
+    vectorNotation_t vec = {};
+
+    fieldsize_t K = 0;
+    //calculate our K
+    for(;decBuf!=0; K++, decBuf=decBuf/P);
+
+    vec = CGF_P_K(0).ConvertDecimalToVector(dec, K);
+
+    CGF_P_K::setP(bufferP);
+    return vec;
+}

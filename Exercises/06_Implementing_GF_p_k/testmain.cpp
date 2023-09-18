@@ -205,4 +205,12 @@ UTEST(1, 7){
     ASSERT_EQ(res.result, CGF_P_K(1));
 }
 
+//Test for Util
+UTEST(1, 8)
+{
+    CGF_P_K::setP(2);
+    CGF_P_K::setK(2);
+    ASSERT_EQ(CGF_P_K(CGF_P_K::getVectorRepresentationStatic(2, 3)), CGF_P_K({1, 1}));
+}
+
 

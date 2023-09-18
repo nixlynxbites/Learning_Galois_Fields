@@ -75,4 +75,7 @@ public:
     vectorNotation_t getVector() const;
 
     fieldsize_t size() const;
+
+    //NOTE: this function internally calculates the needed K
+    static vectorNotation_t getVectorRepresentationStatic(const fieldsize_t P, const fieldsize_t dec);
 };

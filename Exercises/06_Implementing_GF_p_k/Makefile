@@ -1,7 +1,7 @@
 CXX = g++
 CXXFLAGS = -ggdb
 
-all: build test
+all: build test util
 
 
 build: main.cpp gf_p_k.cpp
@@ -10,3 +10,5 @@ build: main.cpp gf_p_k.cpp
 test: testmain.cpp gf_p_k.cpp
 	$(CXX) $(CXXFLAGS) testmain.cpp gf_p_k.cpp -o GFTest
 
+util: utilmain.cpp gf_p_k.cpp
+	$(CXX) $(CXXFLAGS) utilmain.cpp gf_p_k.cpp -o GFUtil
