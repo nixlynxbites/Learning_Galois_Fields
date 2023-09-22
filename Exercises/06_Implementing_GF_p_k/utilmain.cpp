@@ -2,29 +2,35 @@
 #include <string.h>
 #include <stdio.h>
 #include <string>
+#include <cmath>
 
 const char* helpText = 
 "-h\tshows help\n"
 "--help\tshows help\n"
 "-r [P] [n]\tshows the polynomial and vector representation of the number in GF(P)\n"
-;//"-f [P] [K]\tfind irreducable polynomials in GF(P^K)";
+"-d [P] [n1] [n2]\tdo a polynomial division of n1/n2 in GF(P)\n"
+"-f [P] [K]\tfind irreducable polynomials in GF(P^K)[HEAVY]\n";
 
 struct argStruct
 {
     bool showHelp;
     bool showRepresentation;
     bool findIrreducablePolynomials;
+    bool doPolynomialDivision;
     fieldsize_t P;
     fieldsize_t N;
+    fieldsize_t N2;
     fieldsize_t K;
 };
 
 argStruct ParseArgs(int argc, char* argv[]);
-void DisplayData(fieldsize_t P, fieldsize_t K, fieldsize_t N, vectorNotation_t vec);
+void PrintDecimal(fieldsize_t dec);
+void PrintVector(vectorNotation_t vec);
+void PrintPolynomial(vectorNotation_t vec);
 
 int main(int argc, char* argv[])
 {
-    printf("GFUtil V0.0.1\nGFUtil -h for help\n\n");
+    printf("GFUtil V0.0.2\nGFUtil -h for help\n\n");
     argStruct args = ParseArgs(argc, argv);
 
     if(args.showHelp)
@@ -37,27 +43,57 @@ int main(int argc, char* argv[])
         printf("Using GF(%u)[x]:\n", args.P);
         printf("\tDecimal:\t%u\n", args.N);
         vectorNotation_t vec = CGF_P_K(args.N, args.P, CGF_P_K::getKfromP(args.P, args.N)).getVector();
-        printf("\tVector:\t\t[");
-        //Invert loop, because internal representation is easier to calculate with, but external expects the first element to be the highest x^n
-        for(uint32_t i = 1; i <= vec.size(); i++)
-        {
-            printf("%u", vec[vec.size()-i]);
-            if(i != vec.size())
-            {
-                printf(", ");
-            }
-        }
-        printf("]\n");
-        printf("\tPolynomial:\t");
-        for(uint32_t i = 1; i <= vec.size(); i++)
-        {
-            printf("%ux^%u", vec[vec.size()-i], vec.size()-i);
-            if(i != vec.size())
-            {
-                printf(" + ");
-            }
-        }
+        printf("\tVector:\t\t");
+        PrintVector(vec);
         printf("\n");
+        printf("\tPolynomial:\t");
+        PrintPolynomial(vec);
+        printf("\n");
+        return 0;
+    }
+    if(args.doPolynomialDivision)
+    {
+        printf("Using GF(%u)[x]:\n", args.P);
+        CGF_P_K num1 = CGF_P_K(args.N, args.P, CGF_P_K::getKfromP(args.P, args.N));
+        CGF_P_K num2 = CGF_P_K(args.N2, args.P, CGF_P_K::getKfromP(args.P, args.N2));
+        GF_P_K_Full_Div_Result<vectorNotation_t> res = num1.fullDivision(num2);
+
+        if (res.isSuccess != true)
+        {
+            printf("Invalid Values\n\n");
+        }
+        else
+        {
+            CGF_P_K div = CGF_P_K(res.divisionResult, args.P, res.divisionResult.size());
+            CGF_P_K rem = CGF_P_K(res.divisionRemainder, args.P, res.divisionRemainder.size());
+            printf("\tDecimal:\t%u / %u = %u R %u\n", num1.getDecimal(), num2.getDecimal(), div.getDecimal(), rem.getDecimal());
+            printf("\tVector:\t\t");
+            PrintVector(num1.getVector());
+            printf(" / ");
+            PrintVector(num2.getVector());
+            printf("\n\t\t\t= ");
+            PrintVector(div.getVector());
+            printf(" R ");
+            PrintVector(rem.getVector());
+            printf("\n");
+
+            printf("\tPolynomial:\t");
+            PrintPolynomial(num1.getVector());
+            printf(" / ");
+            PrintPolynomial(num2.getVector());
+            printf("\n\t\t\t= ");
+            PrintPolynomial(div.getVector());
+            printf(" R ");
+            PrintPolynomial(rem.getVector());
+            printf("\n");
+        }
+        return 0;
+    }
+    if(args.findIrreducablePolynomials)
+    {
+        //Loop through all Polynomials that have x^K as the highest order term
+        //for(fieldsize_t i = std::pow())
+
         return 0;
     }
 }
@@ -71,8 +107,10 @@ argStruct ParseArgs(int argc, char* argv[])
     argRes.showHelp = false;
     argRes.showRepresentation = false;
     argRes.findIrreducablePolynomials = false;
+    argRes.doPolynomialDivision = false;
     argRes.P = 0;
     argRes.N = 0;
+    argRes.N2 = 0;
     argRes.K = 0;
 
     for(uint32_t i = 1; i < argc; i++)
@@ -91,6 +129,13 @@ argStruct ParseArgs(int argc, char* argv[])
             argRes.P = std::stoi(argv[++i]);
             argRes.N = std::stoi(argv[++i]);
         }
+        else if (strcmp(argv[i], "-d") == 0)
+        {
+            argRes.doPolynomialDivision = true;
+            argRes.P = std::stoi(argv[++i]);
+            argRes.N = std::stoi(argv[++i]);
+            argRes.N2 = std::stoi(argv[++i]);
+        }
         else if (strcmp(argv[i], "-f") == 0)
         {
             argRes.findIrreducablePolynomials = true;
@@ -99,4 +144,43 @@ argStruct ParseArgs(int argc, char* argv[])
         }
     }
     return argRes;
+}
+
+void PrintDecimal(fieldsize_t dec)
+{
+    printf("%u", dec);
+}
+
+void PrintVector(vectorNotation_t vec)
+{
+    //TODO: strip leading zeroes, when put into it's own function
+    //Invert loop, because internal representation is easier to calculate with, but external expects the first element to be the highest x^n
+    printf("[");
+    for(uint32_t i = 1; i <= vec.size(); i++)
+    {
+        printf("%u", vec[vec.size()-i]);
+        if(i != vec.size())
+        {
+            printf(", ");
+        }
+    }
+    printf("]");
+}
+
+void PrintPolynomial(vectorNotation_t vec)
+{
+    //TODO: strip leading zeroes, when put into it's own function
+    for(uint32_t i = 1; i <= vec.size(); i++)
+    {
+        //Skip zeroes:
+        if(vec[vec.size()-i] == 0)
+        {
+            continue;
+        }
+        if(i != 1)
+        {
+            printf("+ ");
+        }
+        printf("%ux^%u ", vec[vec.size()-i], vec.size()-i);
+    }
 }

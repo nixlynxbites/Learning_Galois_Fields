@@ -210,9 +210,26 @@ UTEST(1, 8)
 {
     ASSERT_EQ(CGF_P_K(3, 2, 2).getVector(), CGF_P_K(vectorNotation_t({1, 1}), 2, 2).getVector());
     ASSERT_EQ(CGF_P_K::getKfromP(2, 3), 2);
+    ASSERT_EQ(CGF_P_K::getKfromP(2, 2), 2);
+    ASSERT_EQ(CGF_P_K::getKfromP(2, 1), 1);
     ASSERT_EQ(CGF_P_K::getKfromP(5, 126), 4);
 
     ASSERT_NE(CGF_P_K(3, 2, 2), CGF_P_K(3, 3, 2));
+
+    GF_P_K_Full_Div_Result<vectorNotation_t> res = {false, {0}, {0}};
+
+    res = CGF_P_K(vectorNotation_t({1, 0, 1, 0, 1}), 2, 5).fullDivision(CGF_P_K(vectorNotation_t({0, 1, 1}), 2, 3));
+
+    ASSERT_TRUE(res.isSuccess);
+    ASSERT_EQ(res.divisionResult.size(), 3);
+    ASSERT_EQ(res.divisionRemainder.size(), 2);
+    ASSERT_EQ(CGF_P_K(res.divisionResult, 2, res.divisionResult.size()), CGF_P_K(vectorNotation_t({0, 1, 1}), 2, 3));
+    ASSERT_EQ(CGF_P_K(res.divisionRemainder, 2, res.divisionRemainder.size()), CGF_P_K(vectorNotation_t({1, 0}), 2, 2));
+
+    //No asserts for this code, it was causing segfaults, tests are easier to debug
+    CGF_P_K num1 = CGF_P_K(7, 3, CGF_P_K::getKfromP(3, 7));
+    CGF_P_K num2 = CGF_P_K(2, 3, CGF_P_K::getKfromP(3, 2));
+    res = num1.fullDivision(num2);
 }
 
 

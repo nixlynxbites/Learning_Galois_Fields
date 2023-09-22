@@ -26,9 +26,20 @@ struct GF_P_K_Result
     GF_P_K_Result(bool success, T res) : isSuccess(success), result(res){};
 };
 
+template <class T>
+struct GF_P_K_Full_Div_Result
+{
+    bool isSuccess;
+    T divisionResult;
+    T divisionRemainder;
+    GF_P_K_Full_Div_Result(bool success, T div, T rem) : isSuccess(success), divisionResult(div), divisionRemainder(rem) {};
+};
+
 class CGF_P_K
 {
 private:
+    //NOTE: maybe at this point, with how stuff is evolving, it may be something to consider to have Q also be a CGF_P_K, 
+    //mainly since the class is more and more evolving into a wrapper around vectorNotation_t
     //TODO: with some of the current extentions, it might be smarter to have these 3 be member vars, 
     //have 3 different static vars that the constructor takes by default, but can also be overwritten if the need arrives
     //HACK: To Quickly/User Configurably test out different P, K, Q Values
@@ -74,6 +85,8 @@ public:
     CGF_P_K operator-(const CGF_P_K& other) const;
     CGF_P_K operator*(const CGF_P_K& other) const;
     GF_P_K_Result<CGF_P_K> operator/(const CGF_P_K& other) const;
+
+    GF_P_K_Full_Div_Result<vectorNotation_t> fullDivision(const CGF_P_K& other) const;
     
     bool operator==(const CGF_P_K& other) const;
     bool operator!=(const CGF_P_K& other) const;

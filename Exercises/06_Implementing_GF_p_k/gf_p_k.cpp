@@ -212,6 +212,48 @@ GF_P_K_Result<CGF_P_K> CGF_P_K::operator/(const CGF_P_K& other) const
     }
 }
 
+GF_P_K_Full_Div_Result<vectorNotation_t> CGF_P_K::fullDivision(const CGF_P_K& other) const
+{
+    //we'll divide vec1/vec2 in GF(p)
+    vectorNotation_t vec1 = mInternalRepresentation;
+    vectorNotation_t vec2 = other.mInternalRepresentation;
+
+    //Note: can't just use K here, as we could have a Poly of x + 1 while K is 3, so we need to calculate it
+    //since we're kinda abusing K here to mean "The Order of the highest term +1" or "the size of the vector Notation vector"
+    const fieldsize_t vec1K = getKfromP(mP, this->getDecimal());
+    const fieldsize_t vec2K = getKfromP(mP, other.getDecimal());
+
+    //TODO: return error if deltaK <= 0
+    const fieldsize_t deltaK = vec1K - vec2K;
+
+    vectorNotation_t remVec = {};
+    vectorNotation_t divVec = {};
+
+    //Note: the size of our remVec is the size of our dividing vector -1
+    remVec.resize(vec2K-1);
+    //Note: the size of our divVec is the size of the vector size difference +1
+    divVec.resize(deltaK+1);
+    
+    //i<vec1K check is a quick hck to prevent overflows in case vec2 only has a single element
+    for(fieldsize_t i = vec1K-1; i >= vec2K-1 && i < vec1K; i--)
+    {
+        fieldsize_t shift = i-(vec2K-1);
+        fieldsize_t scale = negateCoefficient(vec1[i]);
+        //scale all elements
+        for(fieldsize_t j = shift; j <= i; j++)
+        {
+            fieldsize_t temp = multiplyCoefficient(scale, vec2[j-shift]);
+            vec1[j] = addCoefficient(vec1[j], temp);
+
+            divVec[shift] = scale;
+        }
+        //and pop
+        vec1.pop_back();
+    }
+    //assert(vec1.size() == vec2K-1);
+    return GF_P_K_Full_Div_Result(true, divVec, vec1);
+}
+
 bool CGF_P_K::operator==(const CGF_P_K& other) const
 {
     for(fieldsize_t i = 0; i < mK; i++)
