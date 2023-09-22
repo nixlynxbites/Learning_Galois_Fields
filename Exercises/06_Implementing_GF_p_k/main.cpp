@@ -44,9 +44,9 @@ int main()
 
 void PrintTableAddition(fieldsize_t P, fieldsize_t K, fieldsize_t Q)
 {
-    CGF_P_K::setP(P);
-    CGF_P_K::setK(K);
-    CGF_P_K::setQ(Q);
+    CGF_P_K::setGlobalP(P);
+    CGF_P_K::setGlobalK(K);
+    CGF_P_K::setGlobalQ(Q);
     //Print Table Symbol
     printf("+\t");
     //Print Table Header
@@ -70,9 +70,9 @@ void PrintTableAddition(fieldsize_t P, fieldsize_t K, fieldsize_t Q)
 
 void PrintTableSubtraction(fieldsize_t P, fieldsize_t K, fieldsize_t Q)
 {
-    CGF_P_K::setP(P);
-    CGF_P_K::setK(K);
-    CGF_P_K::setQ(Q);
+    CGF_P_K::setGlobalP(P);
+    CGF_P_K::setGlobalK(K);
+    CGF_P_K::setGlobalQ(Q);
     //Print Table Symbol
     printf("-\t");
     //Print Table Header
@@ -96,9 +96,9 @@ void PrintTableSubtraction(fieldsize_t P, fieldsize_t K, fieldsize_t Q)
 
 void PrintTableMultiplication(fieldsize_t P, fieldsize_t K, fieldsize_t Q)
 {
-    CGF_P_K::setP(P);
-    CGF_P_K::setK(K);
-    CGF_P_K::setQ(Q);
+    CGF_P_K::setGlobalP(P);
+    CGF_P_K::setGlobalK(K);
+    CGF_P_K::setGlobalQ(Q);
     //Print Table Symbol
     printf("*\t");
     //Print Table Header
@@ -122,9 +122,9 @@ void PrintTableMultiplication(fieldsize_t P, fieldsize_t K, fieldsize_t Q)
 
 void PrintTableDivision(fieldsize_t P, fieldsize_t K, fieldsize_t Q)
 {
-    CGF_P_K::setP(P);
-    CGF_P_K::setK(K);
-    CGF_P_K::setQ(Q);
+    CGF_P_K::setGlobalP(P);
+    CGF_P_K::setGlobalK(K);
+    CGF_P_K::setGlobalQ(Q);
     //Print Table Symbol
     printf("/\t");
     //Print Table Header

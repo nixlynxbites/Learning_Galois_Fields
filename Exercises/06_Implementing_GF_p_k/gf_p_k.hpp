@@ -29,14 +29,20 @@ struct GF_P_K_Result
 class CGF_P_K
 {
 private:
+    //TODO: with some of the current extentions, it might be smarter to have these 3 be member vars, 
+    //have 3 different static vars that the constructor takes by default, but can also be overwritten if the need arrives
     //HACK: To Quickly/User Configurably test out different P, K, Q Values
-    static fieldsize_t mP;
-    static fieldsize_t mK;
-    static fieldsize_t mQ;
+    static fieldsize_t staticP;
+    static fieldsize_t staticK;
+    static fieldsize_t staticQ;
+
+    fieldsize_t mP;
+    fieldsize_t mK;
+    fieldsize_t mQ;
 public:
-    static void setP(fieldsize_t P) {mP = P;};
-    static void setK(fieldsize_t K) {mK = K;};
-    static void setQ(fieldsize_t Q) {mQ = Q;};
+    static void setGlobalP(fieldsize_t P) {staticP = P;};
+    static void setGlobalK(fieldsize_t K) {staticK = K;};
+    static void setGlobalQ(fieldsize_t Q) {staticQ = Q;};
 
 private:
 
@@ -45,8 +51,8 @@ private:
     vectorNotation_t mInternalRepresentation;
 
     decimalNotation_t ConvertVectorToDecimal(vectorNotation_t vec) const;
-    //Note: the second parameter is needed, as we usually use it with K, but we also use this function to convert Q, which uses a power of K+1
-    vectorNotation_t ConvertDecimalToVector(decimalNotation_t dec, uint32_t numberOfElements = mK) const;
+    //Note: if the second parameter is 0, it's using K internally, we also use this function to convert Q, which uses a power of K+1, hence the param
+    vectorNotation_t ConvertDecimalToVector(decimalNotation_t dec, uint32_t numberOfElements = 0) const;
 
     fieldsize_t addCoefficient(fieldsize_t a, fieldsize_t b) const;
     fieldsize_t negateCoefficient(fieldsize_t a) const;
@@ -61,8 +67,8 @@ private:
 
 public:
     
-    CGF_P_K(decimalNotation_t dec);
-    CGF_P_K(vectorNotation_t vec);
+    CGF_P_K(decimalNotation_t dec, fieldsize_t P = staticP, fieldsize_t K = staticK, fieldsize_t Q = staticQ);
+    CGF_P_K(vectorNotation_t vec, fieldsize_t P = staticP, fieldsize_t K = staticK, fieldsize_t Q = staticQ);
 
     CGF_P_K operator+(const CGF_P_K& other) const;
     CGF_P_K operator-(const CGF_P_K& other) const;
@@ -70,12 +76,12 @@ public:
     GF_P_K_Result<CGF_P_K> operator/(const CGF_P_K& other) const;
     
     bool operator==(const CGF_P_K& other) const;
+    bool operator!=(const CGF_P_K& other) const;
 
     decimalNotation_t getDecimal() const;
     vectorNotation_t getVector() const;
 
     fieldsize_t size() const;
 
-    //NOTE: this function internally calculates the needed K
-    static vectorNotation_t getVectorRepresentationStatic(const fieldsize_t P, const fieldsize_t dec);
+    static fieldsize_t getKfromP(fieldsize_t P, decimalNotation_t dec);
 };

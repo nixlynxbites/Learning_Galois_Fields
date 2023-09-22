@@ -5,9 +5,9 @@
 //NOTE: This is for Exercise 06
 
 //HACK: To Quickly/User Configurably test out different P Values
-fieldsize_t CGF_P_K::mP = 3;
-fieldsize_t CGF_P_K::mK = 2; //GF(3^2); only polynomials below x^2
-fieldsize_t CGF_P_K::mQ = 10; //x^2+1
+fieldsize_t CGF_P_K::staticP = 3;
+fieldsize_t CGF_P_K::staticK = 2; //GF(3^2); only polynomials below x^2
+fieldsize_t CGF_P_K::staticQ = 10; //x^2+1
 
 
 
@@ -39,6 +39,11 @@ vectorNotation_t CGF_P_K::ConvertDecimalToVector(decimalNotation_t dec, uint32_t
     //then we shift by x (mP) making our x^1 value our new x^0 value, which we'll then modulo again
     //that way, we'll fill our vector like this vec[0] = c; vec[1] = b; vec[2] = a;
     //where a; b; c stand for f(x) = ax^2 + bx + c
+
+    if(numberOfElements == 0)
+    {
+        numberOfElements = mK;
+    }
 
     vectorNotation_t vec = {};
 
@@ -134,7 +139,8 @@ GF_P_K_Result<CGF_P_K> CGF_P_K::invertPolynomial() const
     return GF_P_K_Result(false, CGF_P_K(0));
 }
 
-CGF_P_K::CGF_P_K(decimalNotation_t dec)
+CGF_P_K::CGF_P_K(decimalNotation_t dec, fieldsize_t P, fieldsize_t K, fieldsize_t Q)
+:mP(P), mK(K), mQ(Q)
 {
     if(dec < size())
     {
@@ -148,7 +154,8 @@ CGF_P_K::CGF_P_K(decimalNotation_t dec)
     }
 }
 
-CGF_P_K::CGF_P_K(vectorNotation_t vec)
+CGF_P_K::CGF_P_K(vectorNotation_t vec, fieldsize_t P, fieldsize_t K, fieldsize_t Q)
+:mP(P), mK(K), mQ(Q)
 {
     //Check if Vector Representation has the correct size
     if(vec.size() != mK)
@@ -217,6 +224,11 @@ bool CGF_P_K::operator==(const CGF_P_K& other) const
     return true;
 }
 
+bool CGF_P_K::operator!=(const CGF_P_K& other) const
+{
+    return !this->operator==(other);
+}
+
 decimalNotation_t CGF_P_K::getDecimal() const
 {
     return ConvertVectorToDecimal(mInternalRepresentation);
@@ -233,20 +245,9 @@ fieldsize_t CGF_P_K::size() const
     return std::pow(mP, mK);
 }
 
-
-vectorNotation_t CGF_P_K::getVectorRepresentationStatic(const fieldsize_t P, const fieldsize_t dec)
+fieldsize_t CGF_P_K::getKfromP(fieldsize_t P, decimalNotation_t dec)
 {
-    fieldsize_t decBuf = dec;
-    fieldsize_t bufferP = mP;
-    CGF_P_K::setP(P);
-    vectorNotation_t vec = {};
-
     fieldsize_t K = 0;
-    //calculate our K
-    for(;decBuf!=0; K++, decBuf=decBuf/P);
-
-    vec = CGF_P_K(0).ConvertDecimalToVector(dec, K);
-
-    CGF_P_K::setP(bufferP);
-    return vec;
+    for(;dec!=0; K++, dec=dec/P);
+    return K;
 }
