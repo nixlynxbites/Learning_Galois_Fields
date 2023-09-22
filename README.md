@@ -22,7 +22,7 @@ For building and running the tests
 make test
 ./GFTest
 ```
-In 06_Implementing_GF_p_k you can also build a small utility (it has the functionality of poly_repr.rs)
+In 06_Implementing_GF_p_k you can also build a small utility. It can find irreducable polynomials (-f) and do a full polynomial division (-d) or just show the different representations (-r).
 ```
 make util
 ./GFUtil -h

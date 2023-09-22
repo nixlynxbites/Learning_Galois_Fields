@@ -30,7 +30,7 @@ void PrintPolynomial(vectorNotation_t vec);
 
 int main(int argc, char* argv[])
 {
-    printf("GFUtil V0.0.2\nGFUtil -h for help\n\n");
+    printf("GFUtil V0.1.0\nGFUtil -h for help\n\n");
     argStruct args = ParseArgs(argc, argv);
 
     if(args.showHelp)
@@ -91,8 +91,38 @@ int main(int argc, char* argv[])
     }
     if(args.findIrreducablePolynomials)
     {
+        printf("Irreducable Polynomials in GF(%u^%u):\n\n", args.P, args.K);
+        bool reduced = false;
         //Loop through all Polynomials that have x^K as the highest order term
-        //for(fieldsize_t i = std::pow())
+        const fieldsize_t PpowK = std::pow(args.P, args.K);
+        const fieldsize_t PpowK1 = std::pow(args.P, args.K+1);
+        for(fieldsize_t i = PpowK; i < PpowK1; i++)
+        {
+            CGF_P_K num1 = CGF_P_K(i, args.P, CGF_P_K::getKfromP(args.P, i));
+            //Test for all of GF(P^K) elements, exiting if we've managed to reduce it, because it obviously isn't irreducable
+            //Note: we need to start at P, as everything is reducable by a ax^0 term
+            for(fieldsize_t j = args.P; j < PpowK; j++)
+            {
+                CGF_P_K num2 = CGF_P_K(j, args.P, CGF_P_K::getKfromP(args.P, j));
+                GF_P_K_Full_Div_Result<vectorNotation_t> res = num1.fullDivision(num2);
+                if(CGF_P_K(res.divisionRemainder, args.P, res.divisionRemainder.size()) == CGF_P_K(0, args.P, res.divisionRemainder.size()))
+                {
+                    reduced = true;
+                    break;
+                }
+            }
+            if(reduced == false)
+            {
+                printf("\tDecimal:\t%u\n", num1.getDecimal());
+                printf("\tVector:\t\t");
+                PrintVector(num1.getVector());
+                printf("\n");
+                printf("\tPolynomial:\t");
+                PrintPolynomial(num1.getVector());
+                printf("\n\n");
+            }
+            reduced = false;
+        }
 
         return 0;
     }

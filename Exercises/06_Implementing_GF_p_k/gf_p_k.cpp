@@ -234,7 +234,7 @@ GF_P_K_Full_Div_Result<vectorNotation_t> CGF_P_K::fullDivision(const CGF_P_K& ot
     //Note: the size of our divVec is the size of the vector size difference +1
     divVec.resize(deltaK+1);
     
-    //i<vec1K check is a quick hck to prevent overflows in case vec2 only has a single element
+    //i<vec1K check is a quick hack to prevent overflows in case vec2 only has a single element
     for(fieldsize_t i = vec1K-1; i >= vec2K-1 && i < vec1K; i--)
     {
         fieldsize_t shift = i-(vec2K-1);
